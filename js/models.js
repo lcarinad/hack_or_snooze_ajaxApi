@@ -73,9 +73,7 @@ class StoryList {
 
   // {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QtbGF1cmVuIiwiaWF0IjoxNjkyODE1MjcyfQ.qLGeRHaBI2oFfh6NJ0EKZxxWOCQIuS_MVP3sllMvSQA","user":{"createdAt":"2023-08-23T17:40:22.828Z","favorites":[],"name":"lauren","stories":[],"updatedAt":"2023-08-23T17:40:22.828Z","username":"test-lauren"}
   async addStory(user, { title, author, url }) {
-    // UNIMPLEMENTED: complete this function!
     let token = user.token;
-    console.log(token);
     let res = await axios.post(
       "https://hack-or-snooze-v3.herokuapp.com/stories",
       {
@@ -88,9 +86,8 @@ class StoryList {
       }
     );
     const story = new Story(res.data.story);
-    console.log(res);
+    console.log(story);
     return story;
-    // for Mariam: newStory instanceof Story; is returning false,  unsure why
   }
 }
 

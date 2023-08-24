@@ -66,7 +66,7 @@
         <a
           class="nav-link"
           href="#"
-          id="submit-story"
+          id="submit-story-nav-link"
           >Submit</a
         >
         <a
@@ -147,27 +147,40 @@
     <!-- Story Submission form -->
     <section class="stories-form">
       <form
+        class="hidden"
         action="#"
-        id="stories-form hidden"
+        id="stories-form"
         method="post">
         <h4>Submit Story</h4>
         <div class="title-input">
           <label for="stories-title">Title</label>
           <input
             type="text"
+            id="storyTitle"
             placeholder="Story Title" />
         </div>
         <div class="author-input">
           <label for="author-input">Name</label>
           <input
             type="text"
+            id="storyAuth"
             placeholder="Author's Name" />
         </div>
         <div class="url-input">
           <label for="url-input">URL</label>
           <input
             type="url"
+            id="storyUrl"
             placeholder="Insert Url" />
+        </div>
+        <div class="submit-button">
+          <label for="submit button"></label>
+          <button
+            type="submit"
+            id="submitBtn"
+            class="submit-btn">
+            Submit
+          </button>
         </div>
       </form>
     </section>
