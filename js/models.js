@@ -73,20 +73,19 @@ class StoryList {
 
   // {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QtbGF1cmVuIiwiaWF0IjoxNjkyODE1MjcyfQ.qLGeRHaBI2oFfh6NJ0EKZxxWOCQIuS_MVP3sllMvSQA","user":{"createdAt":"2023-08-23T17:40:22.828Z","favorites":[],"name":"lauren","stories":[],"updatedAt":"2023-08-23T17:40:22.828Z","username":"test-lauren"}
   async addStory(user, { title, author, url }) {
-    let token = user.token;
-    let res = await axios.post(
-      "https://hack-or-snooze-v3.herokuapp.com/stories",
-      {
-        token,
-        story: {
-          title: title,
-          author: author,
-          url: url,
-        },
-      }
-    );
+    let res = await axios.post(`${BASE_URL}/stories`, {
+      token: user.token,
+      story: {
+        title: title,
+        author: author,
+        url: url,
+      },
+    });
+    console.log(res);
     const story = new Story(res.data.story);
     console.log(story);
+    this.stories.unshift(story);
+    user.ownStories.unshift(story);
     return story;
   }
 }

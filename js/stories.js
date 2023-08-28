@@ -50,30 +50,26 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
-// async function storySubmission() {
-//   let user = new User();
-//   let token = user.token;
-//   let title = $storyTitle.val();
-//   let author = $storyAuthor.val();
-//   let url = $storyUrl.val();
 
-//   const storyList = await StoryList.getStories();
-//   await storyList.addStory(token, { title, author, url });
-//   $(".stories-form input").val("");
-// }
-async function storySubmission(user, { title, author, url }) {
-  const storyList = await StoryList.getStories(); // Get a StoryList instance
+async function storySubmission() {
+  let title = $storyTitle.val();
+  let author = $storyAuthor.val();
+  let url = $storyUrl.val();
+  let username = currentUser.username;
+  console.log(currentUser);
+  let storyObj = { title, author, url, username };
 
-  // Call the addStory method with the correct user and story data
-  const newStory = await storyList.addStory(user, { title, author, url });
+  let newStory = await storyList.addStory(currentUser, storyObj);
 
-  // Clear input values after successfully adding the story
+  const $newStory = generateStoryMarkup(newStory);
+  $allStoriesList.prepend($newStory);
+
   $storyTitle.val("");
   $storyAuthor.val("");
   $storyUrl.val("");
-  console.log(newStory);
 }
 $submitBtn.on("click", function (e) {
   e.preventDefault();
+  console.log("click");
   storySubmission();
 });
