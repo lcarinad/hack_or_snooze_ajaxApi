@@ -71,8 +71,8 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  // {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QtbGF1cmVuIiwiaWF0IjoxNjkyODE1MjcyfQ.qLGeRHaBI2oFfh6NJ0EKZxxWOCQIuS_MVP3sllMvSQA","user":{"createdAt":"2023-08-23T17:40:22.828Z","favorites":[],"name":"lauren","stories":[],"updatedAt":"2023-08-23T17:40:22.828Z","username":"test-lauren"}
   async addStory(user, { title, author, url }) {
+    console.log(user.token);
     let res = await axios.post(`${BASE_URL}/stories`, {
       token: user.token,
       story: {
@@ -81,7 +81,6 @@ class StoryList {
         url: url,
       },
     });
-    console.log(res);
     const story = new Story(res.data.story);
     console.log(story);
     this.stories.unshift(story);
@@ -104,8 +103,7 @@ class User {
     { username, name, createdAt, favorites = [], ownStories = [] },
     token
   ) {
-    this.token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QtbGF1cmVuIiwiaWF0IjoxNjkyODE1MjcyfQ.qLGeRHaBI2oFfh6NJ0EKZxxWOCQIuS_MVP3sllMvSQA";
+    this.token = token;
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;

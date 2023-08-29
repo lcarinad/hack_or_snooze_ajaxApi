@@ -25,11 +25,13 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+      <span><i class="fa-regular fa-heart"></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
-        <small class="story-author">by ${story.author}</small>
+        <small class="story-author">by ${story.author} </small>
+        
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
@@ -45,6 +47,7 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+
     $allStoriesList.append($story);
   }
 
@@ -55,8 +58,9 @@ async function storySubmission() {
   let title = $storyTitle.val();
   let author = $storyAuthor.val();
   let url = $storyUrl.val();
-  let username = currentUser.username;
   console.log(currentUser);
+  let username = currentUser.username;
+
   let storyObj = { title, author, url, username };
 
   let newStory = await storyList.addStory(currentUser, storyObj);
