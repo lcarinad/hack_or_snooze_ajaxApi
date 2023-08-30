@@ -25,7 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-      <span><i class="fa-regular fa-heart favorite notClicked"></i></span>
+      <span><i class="fa-regular fa-heart favorite"></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -58,7 +58,6 @@ async function storySubmission() {
   let title = $storyTitle.val();
   let author = $storyAuthor.val();
   let url = $storyUrl.val();
-  console.log(currentUser);
   let username = currentUser.username;
 
   let storyObj = { title, author, url, username };

@@ -101,6 +101,13 @@ function saveUserFavoritesInLocalStorage() {
     localStorage.setItem("favorites", currentUser.favorites);
   }
 }
+function removeUserFavoritesInLocalStorage() {
+  console.debug("removeUserFavoritesinLocalStorage");
+  if (currentUser) {
+    localStorage.removeItem("favorites", currentUser.favorites);
+  }
+}
+
 /******************************************************************************
  * General UI stuff about users
  */
@@ -120,6 +127,7 @@ function updateUIOnUserLogin() {
   updateNavOnLogin();
 }
 async function addToFavorite(story) {
+  console.debug("addUserFavorite");
   let username = currentUser.username;
   const response = await axios.post(
     `${BASE_URL}/users/${username}/favorites/${story}`,
@@ -127,17 +135,35 @@ async function addToFavorite(story) {
       token: currentUser.token,
     }
   );
-  console.log(response);
+
   saveUserFavoritesInLocalStorage();
 }
+async function deleteFavorite(story) {
+  console.debug("removeUserFavorite");
+  let username = currentUser.username;
 
-//favorite btn
-//❓how do i include conditional to remove it
+  const response = await axios.delete(
+    `${BASE_URL}/users/${username}/favorites/${story}`,
+    {
+      token: currentUser.token,
+    }
+  );
+
+  removeUserFavoritesInLocalStorage();
+}
+
 $("#all-stories-list").on("click", ".favorite", function (e) {
   e.preventDefault();
+  const $li = $(this).closest("li");
+  const idValue = $li.attr("id");
+
   $(this).toggleClass("fa-solid clicked");
-  const idValue = $(this).closest("li").attr("id");
-  // if ($(this).closest("li").attr("class") === "clicked") {
-  addToFavorite(idValue);
-  // }
+
+  let className = $(this).attr("class");
+
+  if ($(this).hasClass("fa-solid clicked")) {
+    addToFavorite(idValue);
+  } else {
+    deleteFavorite(idValue);
+  }
 });

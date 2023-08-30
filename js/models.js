@@ -82,7 +82,6 @@ class StoryList {
       },
     });
     const story = new Story(res.data.story);
-    console.log(story);
     this.stories.unshift(story);
     user.ownStories.unshift(story);
     return story;
@@ -113,7 +112,6 @@ class User {
     this.ownStories = ownStories.map((s) => new Story(s));
 
     // store the login token on the user so it's easy to find for API calls.
-    //for Mariam: i stored login stoken on line 110;  is that correct?
     this.loginToken = token;
   }
 
