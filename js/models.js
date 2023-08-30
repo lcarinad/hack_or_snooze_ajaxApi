@@ -183,7 +183,7 @@ class User {
         method: "GET",
         params: { token },
       });
-
+      console.log(response);
       let { user } = response.data;
 
       return new User(

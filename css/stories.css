@@ -44,3 +44,10 @@
   color: white;
   background-color: #ff6601;
 }
+.favorite:hover {
+  cursor: pointer;
+}
+
+.fa-heart{
+  
+}

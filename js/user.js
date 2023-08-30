@@ -95,7 +95,12 @@ function saveUserCredentialsInLocalStorage() {
     localStorage.setItem("username", currentUser.username);
   }
 }
-
+function saveUserFavoritesInLocalStorage() {
+  console.debug("saveUserFavoritesinLocalStorage");
+  if (currentUser) {
+    localStorage.setItem("favorites", currentUser.favorites);
+  }
+}
 /******************************************************************************
  * General UI stuff about users
  */
@@ -114,3 +119,25 @@ function updateUIOnUserLogin() {
 
   updateNavOnLogin();
 }
+async function addToFavorite(story) {
+  let username = currentUser.username;
+  const response = await axios.post(
+    `${BASE_URL}/users/${username}/favorites/${story}`,
+    {
+      token: currentUser.token,
+    }
+  );
+  console.log(response);
+  saveUserFavoritesInLocalStorage();
+}
+
+//favorite btn
+//❓how do i include conditional to remove it
+$("#all-stories-list").on("click", ".favorite", function (e) {
+  e.preventDefault();
+  $(this).toggleClass("fa-solid clicked");
+  const idValue = $(this).closest("li").attr("id");
+  // if ($(this).closest("li").attr("class") === "clicked") {
+  addToFavorite(idValue);
+  // }
+});

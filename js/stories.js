@@ -25,7 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-      <span><i class="fa-regular fa-heart"></i></span>
+      <span><i class="fa-regular fa-heart favorite notClicked"></i></span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -74,6 +74,5 @@ async function storySubmission() {
 }
 $submitBtn.on("click", function (e) {
   e.preventDefault();
-  console.log("click");
   storySubmission();
 });
