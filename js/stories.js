@@ -23,6 +23,7 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
       <span><i class="fa-regular fa-heart favorite"></i></span>
@@ -53,7 +54,15 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
-
+async function showFavoriteStories() {
+  console.debug("wanna see faves?");
+  $allStoriesList.hide();
+  let favoriteStoryArr = await currentUser.favorites;
+  for (let faveStory of favoriteStoryArr) {
+    const $faveStory = generateStoryMarkup(faveStory);
+    $("#favorite-stories-list").append($faveStory);
+  }
+}
 async function storySubmission() {
   let title = $storyTitle.val();
   let author = $storyAuthor.val();

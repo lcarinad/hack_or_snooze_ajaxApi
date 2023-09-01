@@ -32,6 +32,7 @@ function updateNavOnLogin() {
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
+  $("#nav-favorite").show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
@@ -41,3 +42,7 @@ function showSubmitForm() {
 }
 
 $navSubmitStory.on("click", showSubmitForm);
+$("#nav-favorite").on("click", function (e) {
+  e.preventDefault();
+  showFavoriteStories();
+});

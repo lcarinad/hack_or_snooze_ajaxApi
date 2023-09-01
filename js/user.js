@@ -106,6 +106,7 @@ function removeUserFavoritesInLocalStorage() {
   if (currentUser) {
     localStorage.removeItem("favorites", currentUser.favorites);
   }
+  console.log(currentUser);
 }
 
 /******************************************************************************
@@ -143,11 +144,11 @@ async function deleteFavorite(storyId) {
   await axios.delete(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
     data: { token },
   });
-  // await axios({
-  //   url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
-  //   method: "DELETE",
-  //   data: { token },
-  // });
+  //   // await axios({
+  //   //   url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
+  //   //   method: "DELETE",
+  //   //   data: { token },
+  //   // });
   removeUserFavoritesInLocalStorage();
 }
 
