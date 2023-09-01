@@ -44,6 +44,7 @@
   color: white;
   background-color: #ff6601;
 }
-.favorite:hover {
+.favorite,
+.delete:hover {
   cursor: pointer;
 }

@@ -26,7 +26,9 @@ function generateStoryMarkup(story) {
 
   return $(`
       <li id="${story.storyId}">
-      <span><i class="fa-regular fa-heart favorite"></i></span>
+      <span><i class="fa-regular fa-heart favorite"></i> <i class="fa-light fa-trash delete"></i></span>
+       
+
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -55,7 +57,6 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 async function showFavoriteStories() {
-  console.debug("wanna see faves?");
   $allStoriesList.hide();
   let favoriteStoryArr = await currentUser.favorites;
   for (let faveStory of favoriteStoryArr) {

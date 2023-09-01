@@ -139,29 +139,46 @@ async function addToFavorite(story) {
 async function deleteFavorite(storyId) {
   console.debug("removeUserFavorite");
   let username = currentUser.username;
-  console.log(storyId);
+
   let token = currentUser.token;
   await axios.delete(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
     data: { token },
   });
-  //   // await axios({
-  //   //   url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
-  //   //   method: "DELETE",
-  //   //   data: { token },
-  //   // });
+
   removeUserFavoritesInLocalStorage();
+}
+async function deleteStory(storyId) {
+  let token = currentUser.token;
+  await axios.delete(`${BASE_URL}/stories/${storyId}`, {
+    data: { token },
+  });
 }
 
 $("#all-stories-list").on("click", ".favorite", function (e) {
   e.preventDefault();
   const $li = $(this).closest("li");
   const idValue = $li.attr("id");
-  console.log(idValue);
+
   $(this).toggleClass("fa-solid clicked");
 
   if ($(this).hasClass("fa-solid clicked")) {
     addToFavorite(idValue);
   } else {
     deleteFavorite(idValue);
+  }
+});
+
+$("#all-stories-list").on("click", ".delete", function (e) {
+  e.preventDefault();
+  const $li = $(this).closest("li");
+  const idValue = $li.attr("id");
+
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this story?"
+  );
+  if (confirmed) {
+    $li.remove();
+    deleteStory(idValue);
+  } else {
   }
 });
