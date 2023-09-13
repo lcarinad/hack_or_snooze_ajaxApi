@@ -22,9 +22,10 @@ class Story {
 
   /** Parses hostname out of URL and returns it. */
 
-  getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+  getHostName(storyUrl) {
+    let hn = new URL(storyUrl);
+    console.log(hn);
+    return hn.hostname;
   }
 }
 
@@ -198,5 +199,4 @@ class User {
       return null;
     }
   }
-
 }

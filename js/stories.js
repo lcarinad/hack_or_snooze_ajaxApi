@@ -21,8 +21,7 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
-
-  const hostName = story.getHostName();
+  const hostName = story.getHostName(story.url);
 
   return $(`
       <li id="${story.storyId}">
@@ -32,7 +31,7 @@ function generateStoryMarkup(story) {
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
-        <small class="story-hostname">(${hostName})</small>
+        <small class="story-hostname">${hostName}</small>
         <small class="story-author">by ${story.author} </small>
         
         <small class="story-user">posted by ${story.username}</small>
@@ -85,4 +84,3 @@ $submitBtn.on("click", function (e) {
   e.preventDefault();
   storySubmission();
 });
-
