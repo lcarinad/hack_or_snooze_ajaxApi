@@ -26,7 +26,7 @@ function generateStoryMarkup(story) {
 
   return $(`
       <li id="${story.storyId}">
-      <span><i class="fa-regular fa-heart favorite"></i> <i class="fa-light fa-trash delete"></i></span>
+      <span><i class="fa-regular fa-heart favorite"></i> <i class="fa-solid fa-trash delete"></i></span>
        
 
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -85,3 +85,4 @@ $submitBtn.on("click", function (e) {
   e.preventDefault();
   storySubmission();
 });
+

@@ -130,7 +130,6 @@ class User {
     });
 
     let { user } = response.data;
-    console.log(token);
     return new User(
       {
         username: user.username,
@@ -199,47 +198,5 @@ class User {
       return null;
     }
   }
-  // Allow Users to add a story to favorites
-  // async addToFavorite(storyId) {
-  //   console.debug("addUserFavorite");
-  //   let username = currentUser.username;
-  //   let url = `${BASE_URL}/users/${username}/favorites/${storyId}`;
-  //   await axios.post(`${url}`, {
-  //     token: currentUser.token,
-  //   });
-  //   console.log(currentUser);
-  //   saveUserFavoritesInLocalStorage();
-  // }
-  // async deleteFavorite(storyId) {
-  //   console.debug("removeUserFavorite");
-  //   let username = currentUser.username;
-  //   console.log(storyId);
-  //   let token = currentUser.token;
-  //   await axios.delete(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
-  //     data: { token },
-  //   });
 
-  // await axios({
-  //   url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
-  //   method: "DELETE",
-  //   data: { token },
-  // });
-
-  //   removeUserFavoritesInLocalStorage();
-  // }
 }
-// async function favoriteStory($li, idValue) {
-//   $li.toggleClass("fa-solid clicked");
-
-//   if ($li.hasClass("fa-solid clicked")) {
-//     await currentUser.addToFavorite(idValue);
-//   } else {
-//     await currentUser.deleteFavorite(idValue);
-//   }
-// }
-// $("#all-stories-list").on("click", ".favorite", function (e) {
-//   e.preventDefault();
-//   const $li = $(this).closest("li");
-//   const idValue = $li.attr("id");
-//   favoriteStory($li, idValue);
-// });

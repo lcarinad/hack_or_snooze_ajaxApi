@@ -46,3 +46,4 @@ $("#nav-favorite").on("click", function (e) {
   e.preventDefault();
   showFavoriteStories();
 });
+
