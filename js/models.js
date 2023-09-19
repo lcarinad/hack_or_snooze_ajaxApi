@@ -24,8 +24,7 @@ class Story {
 
   getHostName(storyUrl) {
     let hn = new URL(storyUrl);
-    console.log(hn);
-    return hn.hostname;
+    return hn.host;
   }
 }
 
@@ -73,16 +72,17 @@ class StoryList {
    */
 
   async addStory(user, { title, author, url }) {
-    console.log(user.token);
     let res = await axios.post(`${BASE_URL}/stories`, {
       token: user.token,
       story: {
-        title: title,
         author: author,
+        title: title,
         url: url,
       },
     });
+
     const story = new Story(res.data.story);
+
     this.stories.unshift(story);
     user.ownStories.unshift(story);
     return story;
@@ -181,7 +181,6 @@ class User {
         method: "GET",
         params: { token },
       });
-      console.log(response);
       let { user } = response.data;
 
       return new User(

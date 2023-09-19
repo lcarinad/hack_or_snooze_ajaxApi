@@ -18,14 +18,13 @@ async function getAndShowStoriesOnStart() {
  *
  * Returns the markup for the story.
  */
-
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
-  const hostName = story.getHostName(story.url);
+  let storyUrl = story.url;
+  let hostName = story.getHostName(storyUrl);
 
-  return $(`
+  const $story = $(`
       <li id="${story.storyId}">
-      <span><i class="fa-regular fa-heart favorite"></i> <i class="fa-solid fa-trash delete"></i></span>
+      <span><i class="fa-regular fa-heart favorite"></i> 
        
 
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -37,6 +36,10 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+  if (story.username === currentUser.username) {
+    $story.prepend($deleteBtn);
+  }
+  return $story;
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -49,7 +52,6 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
-
     $allStoriesList.append($story);
   }
 
@@ -69,16 +71,21 @@ async function storySubmission() {
   let url = $storyUrl.val();
   let username = currentUser.username;
 
-  let storyObj = { title, author, url, username };
+  let $storyObj = { title, author, url, username };
 
-  let newStory = await storyList.addStory(currentUser, storyObj);
+  let newStory = await storyList.addStory(currentUser, $storyObj);
 
   const $newStory = generateStoryMarkup(newStory);
+
   $allStoriesList.prepend($newStory);
+
+  $newStory.prepend($deleteBtn);
 
   $storyTitle.val("");
   $storyAuthor.val("");
   $storyUrl.val("");
+  $allStoriesList.show();
+  $storiesForm.hide();
 }
 $submitBtn.on("click", function (e) {
   e.preventDefault();

@@ -16,15 +16,20 @@ async function login(evt) {
   // grab the username and password
   const username = $("#login-username").val();
   const password = $("#login-password").val();
+  try {
+    // User.login retrieves user info from API and returns User instance
+    // which we'll make the globally-available, logged-in user.
 
-  // User.login retrieves user info from API and returns User instance
-  // which we'll make the globally-available, logged-in user.
-  currentUser = await User.login(username, password);
-
+    currentUser = await User.login(username, password);
+    //if login was succesful, current user will identified
+    alert("Welcome back👋🏾");
+    saveUserCredentialsInLocalStorage();
+    updateUIOnUserLogin();
+  } catch (error) {
+    console.log(error);
+    alert("❌Invalid credentials. Try again");
+  }
   $loginForm.trigger("reset");
-
-  saveUserCredentialsInLocalStorage();
-  updateUIOnUserLogin();
 }
 
 $loginForm.on("submit", login);
@@ -97,10 +102,12 @@ function saveUserCredentialsInLocalStorage() {
     localStorage.setItem("username", currentUser.username);
   }
 }
-function saveUserFavoritesInLocalStorage() {
+function saveUserFavoritesInLocalStorage(faveStoriesArr) {
   console.debug("saveUserFavoritesinLocalStorage");
+
   if (currentUser) {
-    localStorage.setItem("favorites", currentUser.favorites);
+    localStorage.setItem("favorites", JSON.stringify(faveStoriesArr));
+    console.log(localStorage);
   }
 }
 function removeUserFavoritesInLocalStorage() {
@@ -126,18 +133,30 @@ function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
   $allStoriesList.show();
+
   $signupForm.hide();
   $loginForm.hide();
+
+  //show favorited stories
+
   updateNavOnLogin();
 }
-async function addToFavorite(story) {
+async function addToFavorite(storyId) {
   console.debug("addUserFavorite");
   let username = currentUser.username;
-  await axios.post(`${BASE_URL}/users/${username}/favorites/${story}`, {
-    token: currentUser.token,
-  });
+  let result = await axios.post(
+    `${BASE_URL}/users/${username}/favorites/${storyId}`,
+    {
+      token: currentUser.token,
+    }
+  );
+  let currentUserFavesArr = currentUser.favorites;
+  let recentFaveInd = result.data.user.favorites.length - 1;
 
-  saveUserFavoritesInLocalStorage();
+  let recentFaveStory = result.data.user.favorites[recentFaveInd];
+  currentUserFavesArr.push(recentFaveStory);
+
+  // saveUserFavoritesInLocalStorage(recentFaveStory);
 }
 async function deleteFavorite(storyId) {
   console.debug("removeUserFavorite");
@@ -157,19 +176,23 @@ async function deleteStory(storyId) {
   });
 }
 
-$("#all-stories-list").on("click", ".favorite", function (e) {
-  e.preventDefault();
-  const $li = $(this).closest("li");
-  const idValue = $li.attr("id");
+$("#all-stories-list, #favorite-stories-list").on(
+  "click",
+  ".favorite",
+  function (e) {
+    e.preventDefault();
+    const $li = $(this).closest("li");
+    const idValue = $li.attr("id");
 
-  $(this).toggleClass("fa-solid clicked");
+    $(this).toggleClass("fa-solid clicked");
 
-  if ($(this).hasClass("fa-solid clicked")) {
-    addToFavorite(idValue);
-  } else {
-    deleteFavorite(idValue);
+    if ($(this).hasClass("fa-solid clicked")) {
+      addToFavorite(idValue);
+    } else {
+      deleteFavorite(idValue);
+    }
   }
-});
+);
 
 $("#all-stories-list").on("click", ".delete", function (e) {
   e.preventDefault();
